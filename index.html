@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>İyi ki Doğdun Doğa Abla!</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at top,#65316f,#160c2b);color:white;text-align:center;font-family:Arial,sans-serif;padding:35px 15px;overflow-x:hidden}
+h1{font-size:clamp(40px,9vw,65px);color:#ffd0e7}
+.card{max-width:550px;margin:25px auto;padding:25px;background:#ffffff18;border:1px solid #ffffff44;border-radius:25px}
+p{line-height:1.8}
+button{border:0;border-radius:30px;padding:16px 25px;background:linear-gradient(90deg,#ff72ae,#ffc36d);font-size:16px;font-weight:bold;color:#35132c;cursor:pointer}
+.envelope{font-size:100px;cursor:pointer}
+.hidden{display:none!important}
+#cake{font-size:110px;cursor:pointer;animation:bounce 1s infinite alternate}
+#party{font-size:clamp(25px,7vw,42px);color:#ffe5a8}
+@keyframes bounce{to{transform:translateY(-12px) rotate(5deg)}}
+.confetti{position:fixed;top:-20px;width:9px;height:15px;animation:fall 3s linear forwards;pointer-events:none;z-index:10}
+@keyframes fall{to{transform:translateY(110vh) rotate(800deg)}}
+.fire{position:fixed;width:7px;height:7px;border-radius:50%;animation:boom 1.2s forwards;pointer-events:none}
+@keyframes boom{to{transform:translate(var(--x),var(--y)) scale(0);opacity:0}}
+</style>
+</head>
+<body>
+<h1>İyi ki Doğdun<br>Doğa Abla!</h1>
+<p>Senin için çok özel bir sürpriz hazırladım!</p>
+
+<div class="card">
+<div class="envelope" onclick="openLetter()">💌</div>
+<h2>ZARFA DOKUN!</h2>
+</div>
+
+<div class="card hidden" id="letter">
+<h2>Canım Doğa Abla ❤️</h2>
+<p>Yeni yaşın sana sağlık, mutluluk, huzur ve birbirinden güzel anılar getirsin. Her günün kahkahalarla dolsun. Bütün dileklerin gerçek olsun. İyi ki varsın, iyi ki doğdun! Nice mutlu yaşlara!</p>
+<button onclick="showCake()">ASIL SÜRPRİZİ AÇ!</button>
+</div>
+
+<div class="card hidden" id="cakeArea">
+<h2>PASTAYA DOKUN! 👇</h2>
+<div id="cake" onclick="celebrate()">🎂</div>
+<div id="party" class="hidden">İYİ Kİ DOĞDUN DOĞA ABLA!!! 🎉❤️</div>
+<p>Bir dilek tut! ✨</p>
+</div>
+
+<script>
+function openLetter(){
+document.getElementById("letter").classList.remove("hidden");
+confetti(40);
+}
+function showCake(){
+document.getElementById("cakeArea").classList.remove("hidden");
+document.getElementById("cakeArea").scrollIntoView({behavior:"smooth"});
+confetti(70);
+}
+function confetti(n){
+let colors=["#ff75b5","#ffd166","#8ee3cf","#bba2ff","#fff"];
+for(let i=0;i<n;i++){
+let e=document.createElement("i");
+e.className="confetti";
+e.style.left=Math.random()*100+"vw";
+e.style.background=colors[Math.floor(Math.random()*colors.length)];
+e.style.animationDuration=(2+Math.random()*3)+"s";
+document.body.appendChild(e);
+setTimeout(()=>e.remove(),5500);
+}
+}
+function fireworks(){
+for(let j=0;j<8;j++){
+setTimeout(()=>{
+let x=Math.random()*innerWidth;
+let y=Math.random()*innerHeight*.5;
+for(let i=0;i<40;i++){
+let a=Math.PI*2*i/40;
+let d=50+Math.random()*100;
+let e=document.createElement("i");
+e.className="fire";
+e.style.left=x+"px";
+e.style.top=y+"px";
+e.style.background=["#ff75b5","#ffd166","#8ee3cf","#bba2ff","#fff"][Math.floor(Math.random()*5)];
+e.style.setProperty("--x",Math.cos(a)*d+"px");
+e.style.setProperty("--y",Math.sin(a)*d+"px");
+document.body.appendChild(e);
+setTimeout(()=>e.remove(),1300);
+}
+},j*250);
+}
+}
+function applause(){
+const C=window.AudioContext||window.webkitAudioContext;
+if(!C)return;
+const ctx=new C();
+for(let i=0;i<65;i++){
+let t=ctx.currentTime+Math.random()*2.5;
+let osc=ctx.createOscillator();
+let gain=ctx.createGain();
+let filter=ctx.createBiquadFilter();
+osc.type="triangle";
+osc.frequency.value=500+Math.random()*1300;
+filter.type="highpass";
+filter.frequency.value=700;
+gain.gain.setValueAtTime(0.0001,t);
+gain.gain.exponentialRampToValueAtTime(.035,t+.005);
+gain.gain.exponentialRampToValueAtTime(.0001,t+.055);
+osc.connect(filter);
+filter.connect(gain);
+gain.connect(ctx.destination);
+osc.start(t);
+osc.stop(t+.06);
+}
+setTimeout(()=>ctx.close(),3500);
+}
+function celebrate(){
+document.getElementById("party").classList.remove("hidden");
+document.getElementById("cake").style.transform="scale(1.3)";
+applause();
+confetti(220);
+fireworks();
+if(navigator.vibrate)navigator.vibrate([100,60,100,60,250]);
+}
+</script>
+</body>
+</html>
