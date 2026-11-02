@@ -1,1 +1,152 @@
-content://downloads/all_downloads/31
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ablam'a Sürpriz!</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at top,#46245f,#211437 55%,#100b20);color:white;font-family:Arial,sans-serif;text-align:center;overflow-x:hidden}
+main{width:min(94%,700px);margin:auto;padding:45px 12px}
+h1{font-size:clamp(45px,10vw,75px);background:linear-gradient(100deg,#fff,#ffc2df,#ffe7a6);color:transparent;background-clip:text}
+.subtitle{color:#e5cce8}
+.panel{background:#ffffff12;border:1px solid #ffffff35;border-radius:25px;padding:25px 18px;margin:22px auto;box-shadow:0 15px 50px #0005}
+.envelope-wrap{height:190px;width:min(300px,85vw);margin:20px auto;cursor:pointer;perspective:900px}
+.envelope{height:100%;position:relative;background:#e76ca6;border-radius:12px}
+.flap{position:absolute;inset:0;background:#ffc0d9;clip-path:polygon(0 0,100% 0,50% 58%);transform-origin:top;transition:transform 1.3s;z-index:3}
+.letter{position:absolute;inset:10px;background:#fff9f7;color:#913b69;border-radius:8px;display:grid;place-items:center;font-weight:bold;font-size:20px;transition:transform 1.4s}
+.envelope.open .flap{transform:rotateX(180deg)}
+.envelope.open .letter{transform:translateY(-110px)}
+.tap{color:#f5c8e1}
+.message{display:none;animation:appear 1.3s both}
+.message.show{display:block}
+.message h2{color:#ffd1e5}
+.message p{line-height:1.8}
+button{border:0;border-radius:30px;padding:15px 24px;background:linear-gradient(100deg,#ff76ac,#ffb86b);font-weight:bold;font-size:15px;cursor:pointer}
+.cake-zone{display:none;margin:30px auto;animation:reveal 1.5s both}
+.cake-zone.show{display:block}
+.cake{font-size:105px;cursor:pointer;display:inline-block;animation:bob 1.4s infinite alternate}
+.party-message{display:none;font-size:clamp(25px,7vw,42px);font-weight:900;color:#fff1b8;text-shadow:0 0 22px #ff8bc5;animation:appear 1.3s both}
+.party-message.show{display:block}
+.cake-zone.celebrating .cake{animation:shake .7s 3 alternate}
+@keyframes appear{0%{opacity:0;transform:translateY(35px) scale(.8);filter:blur(5px)}70%{opacity:1;transform:translateY(-5px) scale(1.04);filter:blur(0)}100%{opacity:1;transform:none}}
+@keyframes reveal{0%{opacity:0;transform:translateY(50px) scale(.7)}70%{opacity:1;transform:translateY(-8px) scale(1.05)}100%{opacity:1;transform:none}}
+@keyframes bob{to{transform:translateY(-10px) rotate(3deg)}}
+@keyframes shake{to{transform:scale(1.2) rotate(8deg)}}
+.confetti{position:fixed;top:-15px;width:9px;height:14px;animation:rain 4s linear forwards;z-index:10;pointer-events:none}
+@keyframes rain{to{transform:translateY(110vh) rotate(900deg);opacity:0}}
+.star{position:fixed;width:3px;height:3px;background:white;border-radius:50%;animation:twinkle 2s infinite alternate}
+@keyframes twinkle{to{opacity:.15;transform:scale(.5)}}
+footer{color:#b99ab9;margin-top:35px}
+</style>
+</head>
+<body>
+<main>
+<div class="eyebrow">✦ Bugün senin günün ✦</div>
+<h1>İyi ki doğdun<br>Ablam!</h1>
+<p class="subtitle">Senin için küçük bir sürpriz hazırladım. Hazırsan başlayalım…</p>
+
+<section class="panel">
+<div class="envelope-wrap" id="envelopeWrap">
+<div class="envelope" id="envelope">
+<div class="letter">Ablam,<br>bu mektup sana!<br>💌</div>
+<div class="flap"></div>
+</div>
+</div>
+<div class="tap" id="tap">Zarfa dokun ve mektubunu aç</div>
+</section>
+
+<section class="panel message" id="message">
+<h2>Canım Ablam! 💗</h2>
+<p>Yeni yaşın sana sağlık, mutluluk, huzur ve birbirinden güzel anılar getirsin. Her günün kahkahalarla, güzel haberlerle ve tatlı sürprizlerle dolsun.</p>
+<p>Umarım dilediğin her şey birer birer gerçekleşir. Hep yüzün gülsün, çünkü sen en güzel şeyleri hak ediyorsun.</p>
+<p><b>İyi ki varsın, iyi ki doğdun! Nice mutlu yaşlara!</b></p>
+<button id="reveal">ASİL SÜRPRİZİ AÇ ✨</button>
+</section>
+
+<section class="cake-zone" id="cakeZone">
+<div style="color:#ffe0a8;font-size:20px;font-weight:bold">PASTAYA DOKUN! 👇</div>
+<div class="cake" id="cake">🎂</div>
+<div class="party-message" id="partyMessage">İYİ Kİ DOĞDUN ABLAM!!! 🎉💖</div>
+<h2>SÜRPRİİİZ! 🎉</h2>
+<p>Bir dilek tut… Bu gece gökyüzü senin için parlıyor! ✨</p>
+</section>
+<footer>Senin için sevgiyle hazırlandı ♥</footer>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+
+for(let i=0;i<95;i++){
+let s=document.createElement('i');
+s.className='star';
+s.style.left=Math.random()*100+'%';
+s.style.top=Math.random()*100+'%';
+document.body.appendChild(s);
+}
+
+function confetti(n=100){
+let colors=['#ff78b2','#ffd166','#8ee3cf','#b9a0ff','#fff'];
+for(let i=0;i<n;i++){
+let e=document.createElement('i');
+e.className='confetti';
+e.style.left=Math.random()*100+'vw';
+e.style.background=colors[Math.floor(Math.random()*colors.length)];
+e.style.animationDuration=(2.5+Math.random()*3)+'s';
+document.body.appendChild(e);
+setTimeout(()=>e.remove(),6000);
+}
+}
+
+function openLetter(){
+if($('envelope').classList.contains('open'))return;
+$('envelope').classList.add('open');
+$('tap').textContent='Mektubun açılıyor…';
+setTimeout(()=>$('message').classList.add('show'),1050);
+setTimeout(()=>confetti(55),500);
+}
+
+$('envelopeWrap').addEventListener('click',openLetter);
+
+$('reveal').addEventListener('click',()=>{
+$('cakeZone').classList.add('show');
+setTimeout(()=>confetti(130),650);
+setTimeout(()=>$('cakeZone').scrollIntoView({behavior:'smooth',block:'center'}),250);
+});
+
+function applause(){
+const AudioCtx=window.AudioContext||window.webkitAudioContext;
+if(!AudioCtx)return;
+const ctx=new AudioCtx();
+const duration=2.5,rate=ctx.sampleRate;
+const buffer=ctx.createBuffer(1,rate*duration,rate);
+const data=buffer.getChannelData(0);
+for(let i=0;i<data.length;i++){
+const t=i/rate;
+data[i]=(Math.random()-.5)*.25*Math.pow(1-t/duration,1.2);
+}
+const source=ctx.createBufferSource();
+source.buffer=buffer;
+const gain=ctx.createGain();
+gain.gain.value=.8;
+source.connect(gain);
+gain.connect(ctx.destination);
+source.start();
+setTimeout(()=>ctx.close(),3000);
+}
+
+function cakeTap(){
+if($('cakeZone').classList.contains('celebrating'))return;
+$('cakeZone').classList.add('celebrating');
+$('partyMessage').classList.add('show');
+applause();
+confetti(180);
+if(navigator.vibrate)navigator.vibrate([100,60,100,60,250]);
+}
+
+$('cake').addEventListener('click',cakeTap);
+</script>
+</body>
+</html>
+
